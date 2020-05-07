@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+
 
 
 namespace FourLineUp
@@ -23,7 +16,10 @@ namespace FourLineUp
     {
         private int playerTurn;//int which is grow +1 every addTile process and i check %2 for which players turn
 
-        private char[,] markBoard = new char[9, 10];
+        private char[,] markBoard = new char[6, 6];
+
+        private int Height = 6;
+        private int Width = 6;
 
         //private bool mGameEnded;//True if the game has ended.
 
@@ -49,9 +45,9 @@ namespace FourLineUp
         
         private void cleanBoardArray(char[,] markBoard)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Height-1; i++)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     markBoard[i, j] = 'z';
                 }
@@ -78,10 +74,11 @@ namespace FourLineUp
 
             markBoard[column, row] = symbol;
 
-            playerTurn++;
-            //MessageBox.Show(symbol.ToString());
+            
+           // MessageBox.Show(symbol.ToString());
             
            /* int checkWin = 0;
+            playerTurn++;
             checkWin=CheckFour(markBoard);
             if (checkWin==1)
             {
@@ -145,13 +142,84 @@ namespace FourLineUp
             AddTile(row, column,XO);
 
             //?????????????????????????????????????????????????
-            int checkWin = 0;
-            checkWin = CheckFour(markBoard);
+            int checkWin ;
+            checkWin = Check4New(markBoard);
             if (checkWin == 1)
             {
                 MessageBox.Show("Player " + XO.ToString() + " WIN !!!");
             }
 
+            playerTurn++;
+
+        }
+
+        public int Check4New(char[,] markBoard)
+        {
+            char XO;
+            int win;
+
+            if (playerTurn % 2 == 0)
+            {
+                XO = 'X';
+            }
+            else
+            {
+                XO = 'O';
+            }
+
+            win = 0;
+
+            // horizontalCheck 
+            for (int j = 0; j < Height - 3; j++)
+            {
+                for (int i = 0; i < Width; i++)
+                {
+                    if (markBoard[i,j] == XO && markBoard[i,j + 1] == XO && markBoard[i,j + 2] == XO && markBoard[i,j + 3] == XO)
+                    {
+                        win=1;
+                        return win;
+                    }
+                }
+            }
+            // verticalCheck
+            for (int i = 0; i < Width - 3; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if (markBoard[i,j] == XO && markBoard[i + 1,j] == XO && markBoard[i + 2,j] == XO && markBoard[i + 3,j] == XO)
+                    {
+                        win=1;
+                        return win;
+                    }
+                }
+            }
+            // ascendingDiagonalCheck 
+            for (int i = 3; i < Width; i++)
+            {
+                for (int j = 0; j < Height - 3; j++)
+                {
+                    if (markBoard[i,j] == XO && markBoard[i - 1,j + 1] == XO && markBoard[i - 2,j + 2] == XO && markBoard[i - 3,j + 3] == XO)
+                    {
+                        win = 1;
+                        return win;
+                    }
+                }
+            }
+            // descendingDiagonalCheck
+            for (int i = 3; i < Width; i++)
+            {
+                for (int j = 3; j < Height; j++)
+                {
+                    if (markBoard[i,j] == XO && markBoard[i - 1,j - 1] == XO && markBoard[i - 2,j - 2] == XO && markBoard[i - 3,j - 3] == XO)
+                    {
+                        win=1;
+                        return win;
+                    }
+                        
+                }
+            }
+            win=0;
+            return win;
         }
 
         // function for Congratulations player (this process replies too much so i write this func)??????????????????????
