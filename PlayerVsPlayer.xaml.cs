@@ -16,12 +16,13 @@ namespace FourLineUp
     {
         private int playerTurn;//int which is grow +1 every addTile process and i check %2 for which players turn
 
+        //this array keep {X,O} for control condition of FourLineUpGame
         private char[,] markBoard = new char[6, 6];
 
         private int Height = 6;
         private int Width = 6;
 
-        //private bool mGameEnded;//True if the game has ended.
+        
 
 
 
@@ -37,19 +38,20 @@ namespace FourLineUp
             {
                 GameBoard.Children.Remove(block);
             });
-            //mGameEnded = false;
-            cleanBoardArray(markBoard);// make sure the array clean (all items different(z) from X or O ) 
+            
+            cleanBoardArray(markBoard);// make sure the markBoard array clean (all items different(z) from X or O ) 
             playerTurn = 0;
         }
 
         
+        //clean markBoard array for new game
         private void cleanBoardArray(char[,] markBoard)
         {
             for (int i = 0; i < Height-1; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    markBoard[i, j] = 'z';
+                    markBoard[i, j] = 'z';//z just different char from {X,O}
                 }
             }
         }
@@ -75,16 +77,7 @@ namespace FourLineUp
             markBoard[column, row] = symbol;
 
             
-           // MessageBox.Show(symbol.ToString());
-            
-           /* int checkWin = 0;
-            playerTurn++;
-            checkWin=CheckFour(markBoard);
-            if (checkWin==1)
-            {
-                MessageBox.Show("Player " + symbol.ToString() + " WIN !!!");
-            }
-            */
+           
 
         }
 
@@ -138,26 +131,29 @@ namespace FourLineUp
                 XO = 'O';
             }
 
-            
+            //adding tile to board every mouse left click 
             AddTile(row, column,XO);
 
-            //?????????????????????????????????????????????????
+            //if we have winner message box pops (player {X or O} WIN !!!) and exit
             int checkWin ;
             checkWin = Check4New(markBoard);
             if (checkWin == 1)
             {
                 MessageBox.Show("Player " + XO.ToString() + " WIN !!!");
+                Environment.Exit(1);
             }
 
             playerTurn++;
 
         }
 
+        // this func control if any 4 line condition for active player
         public int Check4New(char[,] markBoard)
         {
             char XO;
             int win;
 
+            //who's turn  player X or O 
             if (playerTurn % 2 == 0)
             {
                 XO = 'X';
@@ -222,90 +218,6 @@ namespace FourLineUp
             return win;
         }
 
-        // function for Congratulations player (this process replies too much so i write this func)??????????????????????
-        private void Congratulations(char XO)
-        {
-            MessageBox.Show("Player " + XO + " WIN!!!");
-            Environment.Exit(1);
-        }
-
-        // this func control if any 4 line condition for active player
-        public int CheckFour(char[,] markBoard)
-        {
-            char XO;
-            int win;
-
-            if (playerTurn%2 == 0)
-            {
-                XO = 'X';
-            }
-            else
-            {
-                XO = 'O';
-            }
-
-            win = 0;
-
-            for (int i = 8; i >= 1; --i)
-            {
-
-                for (int j = 9; j >= 1; --j)
-                {
-
-                    if (markBoard[i, j] == XO &&
-                        markBoard[i - 1, j - 1] == XO &&
-                        markBoard[i - 2, j - 2] == XO &&
-                        markBoard[i - 3, j - 3] == XO)
-                    {
-                        win = 1;
-                        //Congratulations(XO);
-                        
-                    }
-
-
-                    if (markBoard[i, j] == XO &&
-                        markBoard[i, j - 1] == XO &&
-                        markBoard[i, j - 2] == XO &&
-                        markBoard[i, j - 3] == XO)
-                    {
-                        win = 1;
-                        //Congratulations(XO);
-                    }
-
-                    if (markBoard[i, j] == XO &&
-                        markBoard[i - 1, j] == XO &&
-                        markBoard[i - 2, j] == XO &&
-                        markBoard[i - 3, j] == XO)
-                    {
-                        win = 1;
-                        //Congratulations(XO);
-                    }
-                    
-                    if (markBoard[i, j] == XO &&
-                        markBoard[i - 1, j + 1] == XO &&
-                        markBoard[i - 2, j + 2] == XO &&
-                        markBoard[i - 3, j + 3] == XO)
-                    {
-                        win = 1;
-                        //Congratulations(XO);
-                    }
-                    
-                    if (markBoard[i, j] == XO &&
-                        markBoard[i, j + 1] == XO &&
-                        markBoard[i, j + 2] == XO &&
-                        markBoard[i, j + 3] == XO)
-                    {
-                        win = 1;
-                        //Congratulations(XO);
-                    }
-                    
-                    
-                }
-
-            }
-
-            return win;
-        }
         
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
