@@ -25,6 +25,7 @@ namespace FourLineUp
             InitializeComponent();
         }
 
+        //button for open pvp page
         private void Button_PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerVsPlayer OP = new PlayerVsPlayer();
@@ -33,6 +34,7 @@ namespace FourLineUp
             host.Show();
         }
 
+        //button for close the game
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
