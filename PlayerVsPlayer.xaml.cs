@@ -41,6 +41,7 @@ namespace FourLineUp
             
             CleanBoardArray(markBoard);// Make sure the markBoard array clean (all items different(z) from X or O ) 
             playerTurn = 0;
+            //TestCleanBoardArray(markBoard);
         }
 
         
@@ -55,6 +56,19 @@ namespace FourLineUp
                 }
             }
         }
+
+
+        //I ran this func at video 
+        private void TestCleanBoardArray(char[,] markBoard)
+        {
+            //I show every 3 item of  each row just for testing CleanBoardArray func run correctly
+            for (int i = 0; i < boardHeight ; i++)
+            {
+                MessageBox.Show( (i+1).ToString(". line")+" "+markBoard[i,0].ToString()+ " " + markBoard[i, 1].ToString()+ " " + markBoard[i, 2].ToString());
+            }
+        }
+
+
         private void AddTile(int row, int column, char symbol)
         {
             // Lets Create TextBlock
